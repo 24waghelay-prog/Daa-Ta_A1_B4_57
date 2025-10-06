@@ -1,0 +1,35 @@
+def dist(p, g):
+    s = 0
+    for i in range(len(p)):
+        j = 0 if i == len(p) - 1 else i + 1
+        s += g[p[i]][p[j]]
+    return s
+def tsp(u, vis, locs, g, curr, res, min_d):
+    if len(curr) == len(locs):
+        d = dist(curr, g)
+        if d < min_d[0]:
+            min_d[0] = d
+            res[0] = curr[:]
+        return
+    for i in range(len(locs)):
+        if not vis[i]:
+            vis[i] = True
+            curr.append(i)
+            tsp(i, vis, locs, g, curr, res, min_d)
+            vis[i] = False
+            curr.pop()
+locs = ['D', 'C1', 'C2', 'C3']
+g = [
+    [0, 5, 8, 7],
+    [5, 0, 4, 6],
+    [8, 4, 0, 3],
+    [7, 6, 3, 0]
+]
+res = [[]]
+min_d = [float('inf')]
+vis = [False] * len(locs)
+vis[0] = True
+tsp(0, vis, locs, g, [0], res, min_d)
+route = " → ".join(locs[i] for i in res[0])
+print("Shortest Route:", route + " → D")
+print("Total Distance:", min_d[0])
