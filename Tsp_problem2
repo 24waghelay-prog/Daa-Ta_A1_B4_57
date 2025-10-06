@@ -1,0 +1,37 @@
+def total_distance(order, graph):
+    d = 0
+    for i in range(len(order)):
+        nxt = 0 
+        if i == len(order) - 1 
+        else i + 1
+        d += graph[order[i]][order[nxt]]
+    return d
+def find_path(curr, used, names, graph, path, best_path, best_dist):
+    if len(path) == len(names):
+        d = total_distance(path, graph)
+        if d < best_dist[0]:
+            best_dist[0] = d
+            best_path[0] = path[:]
+        return
+    for i in range(len(names)):
+        if not used[i]:
+            used[i] = True
+            path.append(i)
+            find_path(i, used, names, graph, path, best_path, best_dist)
+            used[i] = False
+            path.pop()
+names = ['D', 'C1', 'C2', 'C3']
+graph = [
+    [0, 5, 8, 7],
+    [5, 0, 4, 6],
+    [8, 4, 0, 3],
+    [7, 6, 3, 0]
+]
+best_path = [[]]
+best_dist = [float('inf')]
+used = [False] * len(names)
+used[0] = True
+find_path(0, used, names, graph, [0], best_path, best_dist)
+route = " → ".join(names[i] for i in best_path[0])
+print("Shortest Route:", route + " → D")
+print("Total Distance:", best_dist[0])
